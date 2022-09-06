@@ -12,7 +12,7 @@ Scanner que logra identificar los tokens del lenguaje Decaf.
 * lexer.jflex: en este archivo se configuraron todas las expresiones regulares de los tokens, junto con las palabras reservadas para el compilador. 
 * tokens.java: en este se encuentra el listado de los tokens determinados en el archivo anterior.
 * lexer.java: este se generó basado en el archivo Principal.java que se ejecutó para que la librería JFlex generara el código para el analizador léxico.
-* Lexical analysis
+* Lexical analysis: proceso de identificación de caracteres basado en los tokens estipulados.
 
 ### Referencias
 
