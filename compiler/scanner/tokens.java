@@ -12,7 +12,7 @@ package scanner;
 public enum tokens {
     RESERVADAS,
     ASIGNAR,
-    REASIG,
+    RESASIG,
     SUMASIG,
     SUMA,
     RESTA,
@@ -73,7 +73,7 @@ public enum tokens {
     EQ_OP,
     COND_OP,
     CHAR_LITERAL,
-    BOOK_LITERAL,
+    BOOL_LITERAL,
     ALPHA,
     ALPHA_NUM,
     DIGIT,
