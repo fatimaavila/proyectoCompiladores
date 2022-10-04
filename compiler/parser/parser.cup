@@ -1,0 +1,37 @@
+package cupexample;
+import java_cup.runtime.*;
+
+parser code {:
+    // Connect this parser to a scanner!
+    Lexer s;
+    Parser(Lexer s){ this.s=s; }
+:}
+
+/* define how to connect to the scanner! */
+init with {: s.init(); :};
+scan with {: return s.nextToken(); :};
+
+/* Terminals (tokens returned by the scanner). */
+terminal            RESERVADAS, ASIGNAR, RESASIG, SUMASIG, SUMA, RESTA, MULTIPLICACION, DIVISION, MOD, MENORQ, MENORQ, MENORIGUALQ, MAYORIGUALQ, IGUAL, DIFERENTE, AND, OR, CORCHETEABIERTO, CORCHETECERRADO, LLAVEABIERTA, LLAVECERRADA, PARENABIERTO, PARENCERRADO, LLAVES, NOT, PUNTOYCOMA, COMA, PUNTO, ERROR;
+terminal Integer    INT, BOOLEAN, LITERAL, BIN_OP, ARITH_OP, REL_OP, EQ_OP, COND_OP, CHAR_LITERAL, BOOL_LITERAL, ALPHA, ALPHA_NUM, DIGIT, HEX_DIGIT, DECIMAL_LITERAL, HEX_LITERAL, TRUE, FALSE, CHAR, STRING_LITERAL, INT_LITERAL;        // our scanner provides numbers as integers
+
+/* Non terminals */
+non terminal            CLASS, PROGRAM, FIELD_DECL, TYPE, ID, METHOD_DECL, VOID, VAR_DECL, STATEMENT, LOCATION, ASSIGN_OP, METHOD_CALL, IF, ELSE, FOR, RETURN, BREAK, CONTINUE, METHOD_NAME, CALLOUT, CALLOUT_ARG;
+non terminal Integer    EXPR, BLOCK;      // used to store evaluated subexpressions
+
+/* Precedences */
+precedence left RESTA, SUMA;
+precedence left MULTIPLICACION;
+
+/* The grammar rules */
+expr_list ::= expr_list expr:e SEMI         {: System.out.println(e);:}
+            | expr:e SEMI                   {: System.out.println(e);:}
+;
+expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;       :}
+             | expr:e1 MINUS expr:e2        {: RESULT = e1-e2;       :}
+             | expr:e1 TIMES expr:e2        {: RESULT = e1*e2;       :}
+             | MINUS expr:e                 {: RESULT = -e;          :}
+  	     %prec UMINUS
+       | LPAREN expr:e RPAREN	         {: RESULT = e;           :}
+       | NUMBER:n	                     {: RESULT = n;           :}
+             ;
