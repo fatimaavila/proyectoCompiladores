@@ -10,8 +10,8 @@ parser code {:
 scan with {: return scanner.next_token(); :}
 // defining terminals here
 // arithmetic operators
-terminal        PLUS, MINUS, MULTIPLY, DIVIDE, MOD, UMINUS,
-				LESS, LESSEQUAL, GREATER, GREATEREQUAL, EQUAL, NOTEQUAL;
+terminal        SUMA, RESTAR, MULTIPLICACION, DIVISION, MOD, UMINUS,
+				MENORQ, MENORIGUALQ, MAYORQ, MAYORIGUALQ, EQUAL, NOTEQUAL;
 // logical operators
 terminal	    AND, OR, NOT;
 // dot
@@ -55,9 +55,9 @@ precedence right    ASSIGN;
 precedence left     OR;
 precedence left     AND;
 precedence left     EQUAL, NOTEQUAL;
-precedence left     LESS, LESSEQUAL, GREATER, GREATEREQUAL;
-precedence left     PLUS, MINUS;
-precedence left     MULTIPLY, DIVIDE, MOD;
+precedence left     MENORQ, MENORIGUALQ, MAYORQ, MAYORIGUALQ;
+precedence left     SUMA, RESTAR;
+precedence left     MULTIPLICACION, DIVISION, MOD;
 precedence right    NOT, UMINUS;
 precedence left     DOT, OPENBRACKET;
 precedence left     OPENPARENTHESIS;
@@ -495,43 +495,43 @@ Expr ::=                LValue:lv ASSIGN Expr:e {:
 						| THIS
 						| Call:c {: RESULT = c; :}
 						| OPENPARENTHESIS Expr:e CLOSEPARENTHESIS {: RESULT = e; :}
-						| Expr:e1 PLUS Expr:e2 {:
+						| Expr:e1 SUMA Expr:e2 {:
 							int phase = ParserPhase.getInstance().getPhase();
 							if ( phase == 1 ) {
 								SemanticStack.getInstance().pushDescriptor( e1 );
 								SemanticStack.getInstance().pushDescriptor( e2 );
-								PlusCodeGen.getInstance().cgen();
+								SumaCodeGen.getInstance().cgen();
 								Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
 								RESULT = temp;
 							}
 						:}
-						| Expr:e1 MINUS Expr:e2 {:
+						| Expr:e1 RESTAR Expr:e2 {:
 							int phase = ParserPhase.getInstance().getPhase();
 							if ( phase == 1 ) {
 								SemanticStack.getInstance().pushDescriptor( e1 );
 								SemanticStack.getInstance().pushDescriptor( e2 );
-								MinusCodeGen.getInstance().cgen();
+								RestaCodeGen.getInstance().cgen();
 								Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
 								RESULT = temp;
 							}
 						:}
-						| Expr:e1 MULTIPLY Expr:e2 {:
+						| Expr:e1 MULTIPLICACION Expr:e2 {:
 							int phase = ParserPhase.getInstance().getPhase();
 							if ( phase == 1 ) {
 								SemanticStack.getInstance().pushDescriptor( e1 );
 								SemanticStack.getInstance().pushDescriptor( e2 );
-								MultiplyCodeGen.getInstance().cgen();
+								MultiplicacionCodeGen.getInstance().cgen();
 								Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
 								RESULT = temp;
 							}
 						:}
-						| Expr:e1 DIVIDE Expr:e2 {:
+						| Expr:e1 DIVISION Expr:e2 {:
 							int phase = ParserPhase.getInstance().getPhase();
 							if ( phase == 1 ) {
 								SemanticStack.getInstance().pushDescriptor( e1 );
 								SemanticStack.getInstance().pushDescriptor( e2 );
 								SemanticStack.getInstance().pushDescriptor( "quotient" );
-								DivideCodeGen.getInstance().cgen();
+								DivisionCodeGen.getInstance().cgen();
 								Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
 								RESULT = temp;
 							}
@@ -542,12 +542,12 @@ Expr ::=                LValue:lv ASSIGN Expr:e {:
                                 SemanticStack.getInstance().pushDescriptor( e1 );
                                 SemanticStack.getInstance().pushDescriptor( e2 );
                                 SemanticStack.getInstance().pushDescriptor( "mod" );
-                                DivideCodeGen.getInstance().cgen();
+                                DivisionCodeGen.getInstance().cgen();
                                 Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                 RESULT = temp;
                             }
 						:}
-						| MINUS Expr:e {:
+						| RESTAR Expr:e {:
 							int phase = ParserPhase.getInstance().getPhase();
                             if ( phase == 1 ) {
                                 SemanticStack.getInstance().pushDescriptor( e );
@@ -557,42 +557,42 @@ Expr ::=                LValue:lv ASSIGN Expr:e {:
                             }
 						:} %prec UMINUS
 
-                        | Expr:e1 LESS Expr:e2 {:
+                        | Expr:e1 MENORQ Expr:e2 {:
                             int phase = ParserPhase.getInstance().getPhase();
                             if ( phase == 1 ) {
                                 SemanticStack.getInstance().pushDescriptor( e1 );
                                 SemanticStack.getInstance().pushDescriptor( e2 );
-                                LessCodeGen.getInstance().cgen();
+                                MenorqCodeGen.getInstance().cgen();
                                 Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                 RESULT = temp;
                             }
                         :}
-						| Expr:e1 LESSEQUAL Expr:e2{:
+						| Expr:e1 MENORIGUALQ Expr:e2{:
                              int phase = ParserPhase.getInstance().getPhase();
                              if ( phase == 1 ) {
                                  SemanticStack.getInstance().pushDescriptor( e1 );
                                  SemanticStack.getInstance().pushDescriptor( e2 );
-                                 LessEqualCodeGen.getInstance().cgen();
+                                 MenorigualqCodeGen.getInstance().cgen();
                                  Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                  RESULT = temp;
                              }
                          :}
-						| Expr:e1 GREATER Expr:e2{:
+						| Expr:e1 MAYORQ Expr:e2{:
                             int phase = ParserPhase.getInstance().getPhase();
                             if ( phase == 1 ) {
                                 SemanticStack.getInstance().pushDescriptor( e1 );
                                 SemanticStack.getInstance().pushDescriptor( e2 );
-                                GreaterCodeGen.getInstance().cgen();
+                                MayorqCodeGen.getInstance().cgen();
                                 Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                 RESULT = temp;
                             }
                         :}
-						| Expr:e1 GREATEREQUAL Expr:e2{:
+						| Expr:e1 MAYORIGUALQ Expr:e2{:
                              int phase = ParserPhase.getInstance().getPhase();
                              if ( phase == 1 ) {
                                  SemanticStack.getInstance().pushDescriptor( e1 );
                                  SemanticStack.getInstance().pushDescriptor( e2 );
-                                 GreaterEqualCodeGen.getInstance().cgen();
+                                 MayorigualqCodeGen.getInstance().cgen();
                                  Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                  RESULT = temp;
                              }
