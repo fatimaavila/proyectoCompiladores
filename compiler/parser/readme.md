@@ -8,5 +8,7 @@ Scanner que identifica el lenguaje Decaf y arma una estructura de datos.
 ## Procesos
 
 * JavaCup: Generador de Parser en Java ☕️
-* Token creation: Creacion de los tokens en Decaf
-* Syntactic analysis: 
+* Token creation: Creacion de los tokens en Decaf.
+* Syntactic analysis: entendimiento de los inputs y su significado.
+* Parse Tree: representación jerárquica de terminales o no terminales. 
+* Traductor de uno a la vez.
