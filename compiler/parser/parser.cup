@@ -9,21 +9,21 @@ parser code {:
 :}
 scan with {: return scanner.next_token(); :}
 // defining terminals here
-// arithmetic operators
+// Operadores aritmeticos
 terminal        SUMA, RESTAR, MULTIPLICACION, DIVISION, MOD, UMINUS,
-				MENORQ, MENORIGUALQ, MAYORQ, MAYORIGUALQ, EQUAL, NOTEQUAL;
-// logical operators
+				MENORQ, MENORIGUALQ, MAYORQ, MAYORIGUALQ, IGUAL, DIFERENTE;
+// Operadores logicos
 terminal	    AND, OR, NOT;
-// dot
-terminal        DOT;
-// types
-terminal        String INT, DOUBLE, BOOL, STRING;
+// Punto
+terminal        PUNTO;
+// Tipos
+terminal        String INT, DOUBLE, BOOLEAN, STRING;
 
-// literals
+// Literales
 terminal        String DECIMAL;
 terminal        String FLOATINGPOINT;
-terminal        String BOOLEANLITERAL;
-terminal        String STRINGLITERAL;
+terminal        String BOOL_LITERAL;
+terminal        String STRING_LITERAL;
 terminal        NULL;
 
 // signs
@@ -54,12 +54,12 @@ precedence left     ELSE;
 precedence right    ASSIGN;
 precedence left     OR;
 precedence left     AND;
-precedence left     EQUAL, NOTEQUAL;
+precedence left     IGUAL, DIFERENTE;
 precedence left     MENORQ, MENORIGUALQ, MAYORQ, MAYORIGUALQ;
 precedence left     SUMA, RESTAR;
 precedence left     MULTIPLICACION, DIVISION, MOD;
 precedence right    NOT, UMINUS;
-precedence left     DOT, OPENBRACKET;
+precedence left     PUNTO, OPENBRACKET;
 precedence left     OPENPARENTHESIS;
 
 start with Program;
@@ -112,11 +112,11 @@ Variable ::=            Type:type IDENTIFIER:id {:
 
 Type ::=                INT {: RESULT = Type.INT; :}
 						| DOUBLE {: RESULT = Type.DOUBLE; :}
-						| BOOL {: RESULT = Type.BOOL; :}
+						| BOOLEAN {: RESULT = Type.BOOLEAN; :}
 						| STRING {: RESULT = Type.STRING; :}
 						| IDENTIFIER:e {: RESULT = Type.OBJECT; :}
 						| Type:t OPENCLOSEBRACKET {:
-							if ( t == Type.INT || t == Type.DOUBLE || t == Type.BOOL
+							if ( t == Type.INT || t == Type.DOUBLE || t == Type.BOOLEAN
 									|| t == Type.STRING || t == Type.OBJECT )
 								RESULT = new ArrayType( (Type) t, 1 );
 							else if ( t instanceof ArrayType ) {
@@ -473,20 +473,20 @@ Expr ::=                LValue:lv ASSIGN Expr:e {:
 							if ( phase == 1 ) {
 								SymbolTable.getInstance().getSymbolTable().addEntry( c.getName(), c );
 								Type type = c.getType();
-								if ( type == Type.INT || type == Type.DOUBLE || type == Type.BOOL )
+								if ( type == Type.INT || type == Type.DOUBLE || type == Type.BOOLEAN )
 									CodeGen.getInstance().addToData(
 										c.getName(),
 										Type.getMipsType( type ),
 										c.getValue().toString()
 									);
-								else if ( type == Type.STRINGLITERAL ) {
+								else if ( type == Type.STRING_LITERAL ) {
 									CodeGen.getInstance().addToData(
 										c.getName(),
 										Type.getMipsType( type ),
 										Integer.toString( c.getValue().toString().length() )
 									);
 									SemanticStack.getInstance().pushDescriptor( c );
-									StringLiteralCodeGen.getInstance().cgen();
+									String_LiteralCodeGen.getInstance().cgen();
 								}
 							}
 							RESULT = c;
@@ -597,22 +597,22 @@ Expr ::=                LValue:lv ASSIGN Expr:e {:
                                  RESULT = temp;
                              }
                          :}
-						| Expr:e1 EQUAL Expr:e2{:
+						| Expr:e1 IGUAL Expr:e2{:
                               int phase = ParserPhase.getInstance().getPhase();
                               if ( phase == 1 ) {
                                   SemanticStack.getInstance().pushDescriptor( e1 );
                                   SemanticStack.getInstance().pushDescriptor( e2 );
-                                  EqualCodeGen.getInstance().cgen();
+                                  IgualCodeGen.getInstance().cgen();
                                   Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                   RESULT = temp;
                               }
                           :}
-						| Expr:e1 NOTEQUAL Expr:e2{:
+						| Expr:e1 DIFERENTE Expr:e2{:
                                int phase = ParserPhase.getInstance().getPhase();
                                if ( phase == 1 ) {
                                    SemanticStack.getInstance().pushDescriptor( e1 );
                                    SemanticStack.getInstance().pushDescriptor( e2 );
-                                   NotEqualCodeGen.getInstance().cgen();
+                                   DiferenteCodeGen.getInstance().cgen();
                                    Descriptor temp = (Descriptor) SemanticStack.getInstance().popDescriptor();
                                    RESULT = temp;
                                }
@@ -710,7 +710,7 @@ LValue ::=              IDENTIFIER:id {:
 							if ( ParserPhase.getInstance().getPhase() == 1 )
 								RESULT = SymbolTable.getInstance().getSymbolTable().getDescriptor( id );
 						:}
-						| Expr DOT IDENTIFIER
+						| Expr PUNTO IDENTIFIER
 						| Expr:e1 OPENBRACKET Expr:e2 CLOSEBRACKET {:
 							if ( ParserPhase.getInstance().getPhase() == 1 ) {
 //								ParserHelper.getInstance().isLValueArray = true;
@@ -755,7 +755,7 @@ Call ::=                IDENTIFIER:functionID OPENPARENTHESIS {:
                                 RESULT = temp;
                             }
 						:}
-						| Expr:e DOT IDENTIFIER:id OPENPARENTHESIS {:
+						| Expr:e PUNTO IDENTIFIER:id OPENPARENTHESIS {:
 							if ( ParserPhase.getInstance().getPhase() == 1 )
                                 SemanticStack.getInstance().pushDescriptor( 0 );
 						:} Actuals CLOSEPARENTHESIS {:
@@ -814,18 +814,18 @@ Constant ::=            DECIMAL:d {:
 									Float.floatToIntBits( Float.parseFloat( f ) )
 								);
 						:}
-						| BOOLEANLITERAL:b {:
+						| BOOL_LITERAL:b {:
 							if ( ParserPhase.getInstance().getPhase() == 1 )
 								RESULT = new CompileTimeDescriptor(
 									"_" + IDGenerator.getInstance().getNextID(),
-									Type.BOOL,
+									Type.BOOLEAN,
 									( b.equals( "true" ) ) ? 1 : 0 );
 						:}
-						| STRINGLITERAL:s {:
+						| STRING_LITERAL:s {:
 							if ( ParserPhase.getInstance().getPhase() == 1 )
 								RESULT = new CompileTimeDescriptor(
 									"_" + IDGenerator.getInstance().getNextID(),
-									Type.STRINGLITERAL,
+									Type.STRING_LITERAL,
 									s.substring( 1, s.length() - 1 ) + '\0'
 								);
 						:}
