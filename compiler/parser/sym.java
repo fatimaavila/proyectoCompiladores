@@ -8,10 +8,11 @@ package cupexample;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int CLOSECURLYBRACES = 34;
   public static final int STRING_LITERAL = 25;
+  public static final int ASIGNAR = 61;
   public static final int READLINE = 36;
   public static final int FLOATINGPOINT = 23;
+  public static final int PUNTOYCOMA = 49;
   public static final int UMINUS = 7;
   public static final int MENORQ = 8;
   public static final int DIFERENTE = 13;
@@ -20,24 +21,21 @@ public class sym {
   public static final int PRIVATE = 50;
   public static final int INTERFACE = 45;
   public static final int INT = 18;
-  public static final int OPENCURLYBRACES = 33;
   public static final int FOR = 56;
-  public static final int SEMICOLON = 49;
+  public static final int LLAVECERRADA = 34;
   public static final int NOT = 16;
   public static final int AND = 14;
   public static final int READINTEGER = 35;
   public static final int IGUAL = 12;
   public static final int OR = 15;
-  public static final int COMMA = 48;
   public static final int CLASS = 44;
   public static final int MAYORIGUALQ = 11;
   public static final int NEWARRAY = 38;
   public static final int OPENCLOSEBRACKET = 29;
   public static final int SUMA = 2;
-  public static final int ASSIGN = 61;
   public static final int IF = 53;
   public static final int THIS = 62;
-  public static final int CLOSEPARENTHESIS = 32;
+  public static final int PARENCERRADO = 32;
   public static final int EOF = 0;
   public static final int BOOLEAN = 20;
   public static final int DECIMAL = 22;
@@ -45,19 +43,19 @@ public class sym {
   public static final int MENORIGUALQ = 9;
   public static final int NEW = 37;
   public static final int error = 1;
-  public static final int CLOSEBRACKET = 28;
+  public static final int COMA = 48;
   public static final int NULL = 26;
+  public static final int CORCHETECERRADO = 28;
   public static final int MOD = 6;
   public static final int BREAK = 58;
   public static final int VOID = 43;
   public static final int DTOI = 40;
-  public static final int OPENPARENTHESIS = 31;
+  public static final int LLAVEABIERTA = 33;
   public static final int ELSE = 54;
   public static final int RESTAR = 3;
   public static final int PROTECTED = 51;
   public static final int PUNTO = 17;
   public static final int WS = 30;
-  public static final int OPENBRACKET = 27;
   public static final int MAYORQ = 10;
   public static final int ITOD = 39;
   public static final int WHILE = 55;
@@ -65,9 +63,11 @@ public class sym {
   public static final int PUBLIC = 52;
   public static final int EXTENDS = 46;
   public static final int BTOI = 42;
+  public static final int PARENABIERTO = 31;
   public static final int STRING = 21;
   public static final int DIVISION = 5;
   public static final int IMPLEMENTS = 47;
+  public static final int CORCHETEABIERTO = 27;
   public static final int PRINT = 60;
   public static final int BOOL_LITERAL = 24;
   public static final int MULTIPLICACION = 4;
@@ -100,14 +100,14 @@ public class sym {
   "BOOL_LITERAL",
   "STRING_LITERAL",
   "NULL",
-  "OPENBRACKET",
-  "CLOSEBRACKET",
+  "CORCHETEABIERTO",
+  "CORCHETECERRADO",
   "OPENCLOSEBRACKET",
   "WS",
-  "OPENPARENTHESIS",
-  "CLOSEPARENTHESIS",
-  "OPENCURLYBRACES",
-  "CLOSECURLYBRACES",
+  "PARENABIERTO",
+  "PARENCERRADO",
+  "LLAVEABIERTA",
+  "LLAVECERRADA",
   "READINTEGER",
   "READLINE",
   "NEW",
@@ -121,8 +121,8 @@ public class sym {
   "INTERFACE",
   "EXTENDS",
   "IMPLEMENTS",
-  "COMMA",
-  "SEMICOLON",
+  "COMA",
+  "PUNTOYCOMA",
   "PRIVATE",
   "PROTECTED",
   "PUBLIC",
@@ -134,7 +134,7 @@ public class sym {
   "BREAK",
   "CONTINUE",
   "PRINT",
-  "ASSIGN",
+  "ASIGNAR",
   "THIS",
   "IDENTIFIER"
   };
