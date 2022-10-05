@@ -237,7 +237,7 @@ FunctionDecl ::=        Type:t IDENTIFIER:name PARENABIERTO {:
 Formals ::=             Variable:v CommaVariables
 						| /*epsilon*/
 						;
-CommaVariables ::=      COMMA Variable CommaVariables
+CommaVariables ::=      COMA Variable CommaVariables
 						| /*epsilon*/
 						;
 
@@ -248,7 +248,7 @@ ClassDeclExtends ::=    EXTENDS IDENTIFIER
 ClassDeclImplements ::= IMPLEMENTS IDENTIFIER CommaIdentifiers
 						| /*epsilon*/
 						;
-CommaIdentifiers ::=    COMMA IDENTIFIER CommaIdentifiers
+CommaIdentifiers ::=    COMA IDENTIFIER CommaIdentifiers
 						| /*epsilon*/
 						;
 FieldStar ::=           Field FieldStar
@@ -441,7 +441,7 @@ PrintStmt ::=           PRINT PARENABIERTO Expr:e
                         PrintCommaExpr PARENCERRADO PUNTOYCOMA
 						;
 
-PrintCommaExpr ::=      COMMA Expr:e
+PrintCommaExpr ::=      COMA Expr:e
 						{:
 							int phase = ParserPhase.getInstance().getPhase();
 							if ( phase == 1 ) {
@@ -782,7 +782,7 @@ Actuals ::=             Expr:e {:
 						| /*epsilon*/
 						;
 
-ActualsCommaExpr ::=    COMMA Expr:e {:
+ActualsCommaExpr ::=    COMA Expr:e {:
 							if ( ParserPhase.getInstance().getPhase() == 1 ) {
 								int prevCount = (int) SemanticStack.getInstance().popDescriptor();
 	                            SemanticStack.getInstance().pushDescriptor( e );
