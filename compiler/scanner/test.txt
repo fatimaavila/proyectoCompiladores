@@ -1,0 +1,18 @@
+class Program {
+    void funciona() {
+        int a, b, c;
+        int d;
+        a = 35;
+        b = 333;
+        c = 337;
+        
+        }
+
+    int prueba() {
+        boolean a, b;
+        a = falso;
+        b = true;
+
+        return mario;
+    }
+}

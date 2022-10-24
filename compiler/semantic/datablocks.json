@@ -1,0 +1,38 @@
+{ "blocks": [
+{
+  "varDeclaration": [
+    {"type": "int", "name": "a1"},
+    {"type": "int", "name": "a2"},
+    {"type": "string", "name": "svar1"},
+    {"type": "real", "name": "rvar1"}
+  ], "varUsage": [
+    {"name": "a1", "value": "3"},
+    {"name": "a2", "value": "5"} 
+  ]
+  } ,
+{
+  "varDeclaration": [
+    {"type": "int", "name": "a2"},
+    {"type": "int", "name": "a222"},
+    {"type": "int", "name": "a222"},
+    {"type": "string", "name": "svar1"},
+    {"type": "real", "name": "rvar1"}
+  ], "varUsage": [
+    {"name": "a2", "value": "3"},
+    {"name": "a2", "value": "5"} 
+  ]
+  } ,
+{
+  "varDeclaration": [
+    {"type": "int", "name": "a1"},
+    {"type": "int", "name": "a2"},
+    {"type": "string", "name": "svar1"},
+    {"type": "real", "name": "rvar1"}
+  ], "varUsage": [
+    {"name": "a1", "value": "3"},
+    {"name": "a2", "value": "5"} 
+  ]
+  } 
+
+
+] }
