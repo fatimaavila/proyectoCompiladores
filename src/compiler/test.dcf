@@ -1,0 +1,14 @@
+void main() {
+	// int array[10];
+	// int i;
+	// for(i = 0, 5){
+	// 	print(i);
+	// 	// array[i] = i;
+	// }
+	// for(i = 0, 5){
+	// 	print(i);
+	// 	// print(array[i]);
+	// }
+
+	int i = ''';
+}
